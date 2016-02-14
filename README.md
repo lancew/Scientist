@@ -3,6 +3,8 @@
 
 [![Coverage Status](https://coveralls.io/repos/github/lancew/Scientist/badge.svg?branch=master)](https://coveralls.io/github/lancew/Scientist?branch=master)
 
+[![CPAN version](https://badge.fury.io/pl/Scientist.svg)](https://badge.fury.io/pl/Scientist)
+
 Perl module inspired by https://github.com/github/scientist ( http://githubengineering.com/scientist/ )
 
 
