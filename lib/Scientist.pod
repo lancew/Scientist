@@ -1,0 +1,11 @@
+=encoding UTF-8
+
+=head1 NAME
+
+Scientist - Test new code against old.
+
+=for HTML
+<a href="https://travis-ci.org/lancew/Scientist"><img src="https://travis-ci.org/lancew/Scientist.svg?branch=master"></a>
+<a href='https://coveralls.io/github/lancew/Scientist?branch=master'><img src='https://coveralls.io/repos/github/lancew/Scientist/badge.svg?branch=master' alt='Coverage Status' /></a>
+<a href="https://badge.fury.io/pl/Scientist"><img src="https://badge.fury.io/pl/Scientist.svg"></a>
+
