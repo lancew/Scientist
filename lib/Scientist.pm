@@ -20,14 +20,13 @@ has 'try' => ( is => 'rw' );
 sub run {
     my $self = shift;
 
-    my $control = $self->use;
-    my $candidate = eval { $self->try };
-
-    my $mismatched = !eq_deeply( $$control, $$candidate );
+    my $control = $self->use->();
+    my $candidate = eval { $self->try->() };
+    my $mismatched = !eq_deeply( \$control, \$candidate );
 
     $self->result( { mismatched => $mismatched ? 1 : 0 } );
 
-    return $$control;
+    return $control;
 }
 
 1;
