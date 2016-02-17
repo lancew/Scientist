@@ -25,9 +25,14 @@ is $experiment->result->{'mismatched'}, 1,
 
 $experiment->use( \&old_code );
 $experiment->try( \&old_code );
-$result = $experiment->run;
-is $result, 10, 'Returns the result of the "use" code';
-is $experiment->result->{'mismatched'}, 0,
-    'Correctly identified a no mismatch between control and candidate';
 
+$result = $experiment->run;
+is $experiment->result->{mismatched}, 0,
+    'Correctly identified a match between control and candidate';
+
+# Do we have timing data
+ok $experiment->result->{control}{duration},
+    'Returns duration timing of control';
+ok $experiment->result->{candidate}{duration},
+    'Returns duration timing of candidate';
 done_testing unless caller();
