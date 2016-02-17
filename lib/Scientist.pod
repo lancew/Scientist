@@ -14,8 +14,31 @@ Scientist - Test new code against old.
 
 Perl module inspired by https://github.com/github/scientist ( http://githubengineering.com/scientist/ )
 
+=head1 SYNOPSIS
 
-Introduction
+    use Scientist;
+
+    sub old_code {
+        return 10;
+    }
+
+    sub new_code {
+        return 20;
+    }
+
+    my $ten_experiment = Scientist->new( 
+        experiment => 'MyTest',
+        use => \&old_code,
+        try => \&new_code,
+    );
+    
+    my $answer = $ten_experiment->run;
+
+    say "The number ten is $answer";
+    warn 'There was a mismatch between control and candidate'
+        if $ten_experiment->result->{'mismatched'};
+
+=head1 Introduction
 
 This module is inspired by the Scientist ruby code released by GitHub under the MIT license in 2015/2016.
 
