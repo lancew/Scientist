@@ -1,7 +1,7 @@
+package Scientist;
+
 use strict;
 use warnings;
-
-package Scientist;
 
 use Moo;
 use Test::Deep::NoTest 'eq_deeply';
