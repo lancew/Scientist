@@ -26,17 +26,21 @@ Perl module inspired by https://github.com/github/scientist ( http://githubengin
         return 20;
     }
 
-    my $ten_experiment = Scientist->new( 
+    my $experiment = Scientist->new( 
         experiment => 'MyTest',
         use => \&old_code,
         try => \&new_code,
     );
     
-    my $answer = $ten_experiment->run;
+    my $answer = $experiment->run;
 
     say "The number ten is $answer";
     warn 'There was a mismatch between control and candidate'
-        if $ten_experiment->result->{'mismatched'};
+        if $experiment->result->{'mismatched'};
+
+    say 'Timings:';
+    say 'Control code:   ', $experiement->result->{control}{duration}, ' microseconds';
+    say 'Candidate code: ', $experiement->result->{candidate}{duration}, ' microseconds';
 
 =head1 Introduction
 
