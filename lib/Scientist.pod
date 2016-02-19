@@ -94,3 +94,5 @@ http://www.infoq.com/news/2016/02/github-scientist-refactoring
 http://githubengineering.com/scientist/
 
 https://news.ycombinator.com/item?id=11104781
+
+https://github.com/ziyasal/scientist.js
