@@ -13,6 +13,7 @@ use Time::HiRes 'time';
 # TODO: Should limit to a hashref
 has 'context' => ( is => 'rw' );
 
+has 'enabled' => ( is => 'rw', default => 1);
 
 has 'experiment' => ( is => 'rw' );
 
@@ -25,6 +26,12 @@ has 'try' => ( is => 'rw' );
 sub run {
     my $self = shift;
     my %result;
+
+    if(!$self->enabled){
+        # If experiement not enabled just return the control 
+        # code results
+        return $self->use->();
+    }
 
     $result{context} = $self->context;
 
