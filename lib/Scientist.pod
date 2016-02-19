@@ -39,8 +39,8 @@ Perl module inspired by https://github.com/github/scientist ( http://githubengin
         if $experiment->result->{'mismatched'};
 
     say 'Timings:';
-    say 'Control code:   ', $experiement->result->{control}{duration}, ' microseconds';
-    say 'Candidate code: ', $experiement->result->{candidate}{duration}, ' microseconds';
+    say 'Control code:   ', $experiment->result->{control}{duration}, ' microseconds';
+    say 'Candidate code: ', $experiment->result->{candidate}{duration}, ' microseconds';
 
 =head1 Introduction
 
