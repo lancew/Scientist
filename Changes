@@ -1,3 +1,9 @@
+0.005 2016-02-19
+    - Add context, a hash ref returned in the result set
+    - Add enabled, default is true
+    - Add experiment as member of result set.
+    - Extend the pod
+
 0.004 2016-02-17
     - Add duration timing to result set.
 
