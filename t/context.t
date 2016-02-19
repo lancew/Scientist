@@ -17,11 +17,13 @@ sub new_code {
 
 $experiment->use( \&old_code );
 $experiment->try( \&new_code );
-$experiment->context( { one_key => 'first value', second_key => 'second value' } );
+$experiment->context(
+    { one_key => 'first value', second_key => 'second value' } );
 
 my $result = $experiment->run;
 
-is_deeply $experiment->result->{context}, {one_key => 'first value', second_key => 'second value'}; 
+is_deeply $experiment->result->{context},
+    { one_key => 'first value', second_key => 'second value' };
 
 #TODO Add tests for what happens if we dont give a hash ref
 
