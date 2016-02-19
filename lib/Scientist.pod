@@ -1,3 +1,4 @@
+
 =encoding UTF-8
 
 =head1 NAME
@@ -28,6 +29,7 @@ Perl module inspired by https://github.com/github/scientist ( http://githubengin
 
     my $experiment = Scientist->new( 
         experiment => 'MyTest',
+        enabled => 1,
         use => \&old_code,
         try => \&new_code,
     );
@@ -51,6 +53,53 @@ In February 2016 I started writing this Perl module to bring similar ideas to Pe
 Please get involved in this module; contact lancew@cpan.org with ideas, suggestions; support, etc.
 
 This code is also released under the MIT license to match the original Ruby implementation.
+
+=head1 Methods / Attributes
+
+=over
+
+=item context(<HASHREF>)
+
+Provide contextual information for the experiement; will be returned in the result set.
+
+Should be a hashref
+
+
+=item enabled(<TRUE>|<FALSE>)
+
+DEFAULT : TRUE
+Boolean switch to enable or disable the experiement. If disabled the experiement will only return
+the control code (use) result. The candidate code (try) will NOT be executed. The results set will
+not be populated.
+
+
+=item experiment(<STRING>)
+
+Simply the name of the experiment included in the result set.
+
+
+=item use(<CODEREF>)
+
+Control code to be included in the experiment.
+This code will be executed and returned when the experiment is run. 
+NB: This code is run and returned even if experiment enabed=false.
+
+=item result()
+
+Result contains the result of the experiment after it is run.
+Will contain data only AFTER ->run() has been called.
+
+=item run()
+
+This method executes the control (use) code and if experiment enabled will also run the candidate (try)
+code.
+
+=item try(<CODEREF>)
+
+Candidate code to be included in the experiment.
+This code will be executed and discarded when the experiment is run. 
+
+=back
 
 =head1 AUTHOR
  
