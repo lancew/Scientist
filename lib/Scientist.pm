@@ -33,7 +33,8 @@ sub run {
         return $self->use->();
     }
 
-    $result{context} = $self->context;
+    $result{context}    = $self->context;
+    $result{experiment} = $self->experiment;
 
     my $start   = Time::HiRes::time;
     my $control = $self->use->();

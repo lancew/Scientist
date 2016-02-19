@@ -29,6 +29,8 @@ $experiment->try( \&old_code );
 $result = $experiment->run;
 is $experiment->result->{mismatched}, 0,
     'Correctly identified a match between control and candidate';
+is $experiment->result->{experiment}, 'MyTest',
+    'Experiment (name of experiment) returned in results';
 
 # Do we have timing data
 ok $experiment->result->{control}{duration},
