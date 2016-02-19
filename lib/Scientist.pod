@@ -60,7 +60,7 @@ This code is also released under the MIT license to match the original Ruby impl
 
 =item context(<HASHREF>)
 
-Provide contextual information for the experiement; will be returned in the result set.
+Provide contextual information for the experiment; will be returned in the result set.
 
 Should be a hashref
 
@@ -68,7 +68,7 @@ Should be a hashref
 =item enabled(<TRUE>|<FALSE>)
 
 DEFAULT : TRUE
-Boolean switch to enable or disable the experiement. If disabled the experiement will only return
+Boolean switch to enable or disable the experiment. If disabled the experiment will only return
 the control code (use) result. The candidate code (try) will NOT be executed. The results set will
 not be populated.
 
