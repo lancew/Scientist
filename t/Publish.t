@@ -31,6 +31,6 @@ $experiment->try( \&new_code );
 my $result = eval { $experiment->run };
 my $string = $@;
 chomp $string;
-is $string, 'Publish Test at t/Publish.t line 13.', 'All keys present';
+like $string, qr/Publish Test/, 'Experiment name is in publish die statement as expected.';
 
 done_testing unless caller();
