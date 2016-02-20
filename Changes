@@ -1,3 +1,7 @@
+0.006 2016-02-20
+    - Scientist understands perl list/scalar context when run called
+    - Publish added (With documentation/test showing how to extend)
+
 0.005 2016-02-19
     - Add context, a hash ref returned in the result set
     - Add enabled, default is true
