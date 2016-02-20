@@ -23,6 +23,13 @@ has 'result' => ( is => 'rw', );
 
 has 'try' => ( is => 'rw' );
 
+sub publish {
+    my $self = shift;
+    # Stub publish sub, extend this to enable your own own
+    # unique publishing requirements
+    return;
+}
+
 sub run {
     my $self = shift;
     my %result;
@@ -71,6 +78,8 @@ sub run {
     $result{candidate}{duration} = ( Time::HiRes::time - $start );
 
     $self->result( \%result );
+
+    $self->publish;
 
     return $list_context ? @control_array : $control;
 }
