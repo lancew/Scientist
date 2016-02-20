@@ -27,27 +27,52 @@ sub run {
     my $self = shift;
     my %result;
 
+    my $list_context = wantarray;
+
     if ( !$self->enabled ) {
         # If experiement not enabled just return the control
         # code results
-        return $self->use->();
+
+        if ($list_context) {
+            return my @result = $self->use->();
+        }
+        else {
+            return $self->use->();   
+        }
     }
 
     $result{context}    = $self->context;
     $result{experiment} = $self->experiment;
 
     my $start   = Time::HiRes::time;
-    my $control = $self->use->();
+    my (@control_array, $control, @candidate_array, $candidate);
+    if ($list_context){
+        @control_array = $self->use->();
+    }
+    else{
+        $control = $self->use->();
+    }
     $result{control}{duration} = ( Time::HiRes::time - $start );
 
     $start = Time::HiRes::time;
-    my $candidate = eval { $self->try->() };
-    $result{mismatched} = !eq_deeply( \$control, \$candidate ) ? 1 : 0;
+    if ($list_context) {
+        @candidate_array = eval { $self->try->() };
+    }
+    else
+    {
+        $candidate = eval { $self->try->() };   
+    }
+    if ($list_context) {
+        $result{mismatched} = !eq_deeply( \@control_array, \@candidate_array ) ? 1 : 0;
+    } 
+    else {
+        $result{mismatched} = !eq_deeply( \$control, \$candidate ) ? 1 : 0;
+    }
     $result{candidate}{duration} = ( Time::HiRes::time - $start );
 
     $self->result( \%result );
 
-    return $control;
+    return $list_context ? @control_array : $control;
 }
 
 1;
