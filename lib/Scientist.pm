@@ -37,19 +37,19 @@ sub run {
             return my @result = $self->use->();
         }
         else {
-            return $self->use->();   
+            return $self->use->();
         }
     }
 
     $result{context}    = $self->context;
     $result{experiment} = $self->experiment;
 
-    my $start   = Time::HiRes::time;
-    my (@control_array, $control, @candidate_array, $candidate);
-    if ($list_context){
+    my $start = Time::HiRes::time;
+    my ( @control_array, $control, @candidate_array, $candidate );
+    if ($list_context) {
         @control_array = $self->use->();
     }
-    else{
+    else {
         $control = $self->use->();
     }
     $result{control}{duration} = ( Time::HiRes::time - $start );
@@ -58,13 +58,13 @@ sub run {
     if ($list_context) {
         @candidate_array = eval { $self->try->() };
     }
-    else
-    {
-        $candidate = eval { $self->try->() };   
+    else {
+        $candidate = eval { $self->try->() };
     }
     if ($list_context) {
-        $result{mismatched} = !eq_deeply( \@control_array, \@candidate_array ) ? 1 : 0;
-    } 
+        $result{mismatched}
+            = !eq_deeply( \@control_array, \@candidate_array ) ? 1 : 0;
+    }
     else {
         $result{mismatched} = !eq_deeply( \$control, \$candidate ) ? 1 : 0;
     }
