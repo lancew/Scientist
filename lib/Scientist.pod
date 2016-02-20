@@ -77,6 +77,12 @@ not be populated.
 
 Simply the name of the experiment included in the result set.
 
+=item publish
+
+Publish is a method called by ->run().
+
+Scientist is design so that you create your own personalised My::Scientist module and extend publish to do what you want/need.
+For example push timing and mismathc information to Statsd. 
 
 =item use(<CODEREF>)
 
@@ -100,6 +106,48 @@ Candidate code to be included in the experiment.
 This code will be executed and discarded when the experiment is run. 
 
 =back
+
+=head1 Extending Publish
+
+You can create your own Scientist module and use it to create a custom publishing methodology.
+
+Below is a small example that pushes mismatch info and timings to StatsD:
+
+  # My/Scientist.pm
+  package My::Scientist;
+  use parent 'Scientist';
+
+  use Net::Statsd;
+
+  sub publish {
+    my $self = shift;
+
+    my $experiment = $self->result->{experiment};
+    # Increment counter for every match or mismatch
+    Net::Statsd::increment("$experiment.mismatch") if $self->result->{mismatched};
+    Net::Statsd::increment("$experiment.match") unless $self->result->{mismatched};
+
+    # Log timings (converting Scientist microsends to statsd miliseconds)
+    Net::Statsd::timing("$experiment.control",   $self->result->{control}{duration} * 1_000);
+    Net::Statsd::timing("$experiment.candidate", $self->result->{candidate}{duration} * 1_000);
+  }
+  
+  1;
+    
+   # SomePerlScript.pl
+   use strict;
+   use warnings;
+
+   use My::Scientist;
+
+   my $experiment = Scientist->new(
+        experiment => 'MyTest',
+        use        => \&old_code,
+        try        => \&new_code,
+   );
+
+    my $result = $experiment->run;
+
 
 =head1 AUTHOR
  
