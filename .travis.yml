@@ -9,6 +9,6 @@ perl:
   - "5.12"
   - "5.10"
   - "5.8"
-install: cpanm -nq Devel::Cover::Report::Coveralls Moo Test::More Test::Deep::NoTest Test::Pod Test::PerlTidy
+install: cpanm -nq Devel::Cover::Report::Coveralls Moo Test::More Test::Deep::NoTest Test::Pod Test::PerlTidy Test::Perl::Critic
 script: PERL5OPT=-MDevel::Cover prove -lv
 after_success: cover -report coveralls
