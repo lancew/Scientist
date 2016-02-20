@@ -11,12 +11,7 @@ sub old_code {
     return 10;
 }
 
-sub new_code {
-    return 20;
-}
-
 $experiment->use( \&old_code );
-$experiment->try( \&new_code );
 
 $experiment->enabled(0);
 
