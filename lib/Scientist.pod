@@ -97,7 +97,7 @@ Will contain data only AFTER ->run() has been called.
 =item run()
 
 This method executes the control (use) code and if experiment enabled will also run the candidate (try)
-code.
+code. The control and candidate code is run in random order.
 
 =item try(<CODEREF>)
 
