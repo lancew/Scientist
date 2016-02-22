@@ -32,56 +32,34 @@ sub publish {
 
 sub run {
     my $self = shift;
-    my %result;
 
-    my $list_context = wantarray;
+    # If experiement not enabled just return the control code results.
+    return $self->use->() unless $self->enabled;
 
-    if ( !$self->enabled ) {
-        # If experiement not enabled just return the control
-        # code results
+    my %result = (
+        context    => $self->context,
+        experiment => $self->experiment,
+    );
 
-        if ($list_context) {
-            return my @result = $self->use->();
-        }
-        else {
-            return $self->use->();
-        }
-    }
+    my $wantarray = wantarray;
+    my $start     = Time::HiRes::time;
 
-    $result{context}    = $self->context;
-    $result{experiment} = $self->experiment;
+    my @control = $wantarray ? $self->use->() : scalar $self->use->();
 
-    my $start = Time::HiRes::time;
-    my ( @control_array, $control, @candidate_array, $candidate );
-    if ($list_context) {
-        @control_array = $self->use->();
-    }
-    else {
-        $control = $self->use->();
-    }
-    $result{control}{duration} = ( Time::HiRes::time - $start );
+    $result{control}{duration} = Time::HiRes::time - $start;
 
     $start = Time::HiRes::time;
-    if ($list_context) {
-        @candidate_array = eval { $self->try->() };
-    }
-    else {
-        $candidate = eval { $self->try->() };
-    }
-    if ($list_context) {
-        $result{mismatched}
-            = !eq_deeply( \@control_array, \@candidate_array ) ? 1 : 0;
-    }
-    else {
-        $result{mismatched} = !eq_deeply( \$control, \$candidate ) ? 1 : 0;
-    }
-    $result{candidate}{duration} = ( Time::HiRes::time - $start );
+
+    my @candidate = $wantarray ? $self->try->() : scalar $self->try->();
+
+    $result{candidate}{duration} = Time::HiRes::time - $start;
+
+    $result{mismatched} = !eq_deeply( \@control, \@candidate ) ? 1 : 0;
 
     $self->result( \%result );
-
     $self->publish;
 
-    return $list_context ? @control_array : $control;
+    return $wantarray ? @control : $control[0];
 }
 
 1;
