@@ -42,17 +42,28 @@ sub run {
     );
 
     my $wantarray = wantarray;
-    my $start     = Time::HiRes::time;
 
-    my @control = $wantarray ? $self->use->() : scalar $self->use->();
+    my ( @control, @candidate );
+    my $run_control = sub {
+        my $start = Time::HiRes::time;
+        @control = $wantarray ? $self->use->() : scalar $self->use->();
+        $result{control}{duration} = Time::HiRes::time - $start;
+    };
 
-    $result{control}{duration} = Time::HiRes::time - $start;
+    my $run_candidate = sub {
+        my $start = Time::HiRes::time;
+        @candidate = $wantarray ? $self->try->() : scalar $self->try->();
+        $result{candidate}{duration} = Time::HiRes::time - $start;
+    };
 
-    $start = Time::HiRes::time;
-
-    my @candidate = $wantarray ? $self->try->() : scalar $self->try->();
-
-    $result{candidate}{duration} = Time::HiRes::time - $start;
+    if ( rand > 0.5 ) {
+        $run_control->();
+        $run_candidate->();
+    }
+    else {
+        $run_candidate->();
+        $run_control->();
+    }
 
     $result{mismatched} = !eq_deeply( \@candidate, \@control ) ? 1 : 0;
 
