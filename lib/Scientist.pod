@@ -127,7 +127,7 @@ Below is a small example that pushes mismatch info and timings to StatsD:
     Net::Statsd::increment("$experiment.match") unless $self->result->{mismatched};
 
     # Log timings (converting Scientist microsends to statsd miliseconds)
-    # Note: This implementation orunds down the duration.
+    # Note: This implementation rounds down the duration.
     Net::Statsd::timing("$experiment.control",   int $self->result->{control}{duration} * 1_000);
     Net::Statsd::timing("$experiment.candidate", int $self->result->{candidate}{duration} * 1_000);
   }
