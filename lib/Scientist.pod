@@ -197,3 +197,5 @@ http://githubengineering.com/scientist/
 https://news.ycombinator.com/item?id=11104781
 
 https://github.com/ziyasal/scientist.js
+
+http://tech-blog.cv-library.co.uk/2016/03/03/introducing-scientist/
