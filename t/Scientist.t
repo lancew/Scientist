@@ -23,6 +23,13 @@ is $result, 10, 'Returns the result of the "use" code';
 is $experiment->result->{'mismatched'}, 1,
     'Correctly identified a mismatch between control and candidate';
 
+is $experiment->result->{observation}{candidate}, 20, 'Observation Candidate data correct';
+is $experiment->result->{observation}{control},   10, 'Observation Control data correct';
+
+like $experiment->result->{observation}{diagnostic},
+     qr/got : '20'/,
+     'Observation diagnostic correct';
+
 $experiment->use( \&old_code );
 $experiment->try( \&old_code );
 

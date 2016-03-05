@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use Moo;
-use Test::Deep::NoTest 'eq_deeply';
+use Test::Deep::NoTest qw/deep_diag cmp_details/;
 use Time::HiRes 'time';
 
 # ABSTRACT: Perl module inspired by https://github.com/github/scientist
@@ -65,7 +65,16 @@ sub run {
         $run_control->();
     }
 
-    $result{mismatched} = !eq_deeply( \@candidate, \@control ) ? 1 : 0;
+    my ($ok, $stack)    = cmp_details( \@candidate, \@control );
+    $result{matched}    = $ok ? 1 : 0;
+    $result{mismatched} = $ok ? 0 : 1;
+
+    $result{observation}{candidate} = $wantarray ? @candidate : $candidate[0];
+    $result{observation}{control}   = $wantarray ? @control : $control[0];
+
+    if ($result{mismatched}){
+        $result{observation}{diagnostic} = deep_diag($stack);
+    }
 
     $self->result( \%result );
     $self->publish;
