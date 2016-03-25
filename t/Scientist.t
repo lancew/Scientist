@@ -40,8 +40,8 @@ is $experiment->result->{experiment}, 'MyTest',
     'Experiment (name of experiment) returned in results';
 
 # Do we have timing data
-ok $experiment->result->{control}{duration},
+ok $experiment->result->{control}{duration} > 0,
     'Returns duration timing of control';
-ok $experiment->result->{candidate}{duration},
+ok $experiment->result->{candidate}{duration} > 0,
     'Returns duration timing of candidate';
 done_testing unless caller();

@@ -1,3 +1,9 @@
+0.007 2016-03-25
+    - Add matched/mismatched
+    - Add observation
+    - Add observation{candidate}
+    - Add observation{control}
+    - Add observation{diagnostic}
 0.006 2016-02-22
     - Scientist understands perl list/scalar context when run called
     - Publish added (With documentation/test showing how to extend)

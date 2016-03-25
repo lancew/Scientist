@@ -93,6 +93,7 @@ NB: This code is run and returned even if experiment enabed=false.
 
 Result contains the result of the experiment after it is run.
 Will contain data only AFTER ->run() has been called.
+Observation is included in the result, this inclides macthed/mismatched. If mismatched present will also have diagnostic present.
 
 =item run()
 
