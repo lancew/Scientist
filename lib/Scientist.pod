@@ -47,9 +47,9 @@ Perl module inspired by https://github.com/github/scientist ( http://githubengin
 
 This module is inspired by the Scientist ruby code released by GitHub under the MIT license in 2015/2016.
 
-In February 2016 I started writing this Perl module to bring similar ideas to Perl.
+In February 2016, I started writing this Perl module to bring similar ideas to Perl.
 
-Please get involved in this module; contact lancew@cpan.org with ideas, suggestions; support, etc.
+Please get involved with this module. Contact lancew@cpan.org with ideas, suggestions; support, etc.
 
 This code is also released under the MIT license to match the original Ruby implementation.
 
@@ -61,8 +61,7 @@ This code is also released under the MIT license to match the original Ruby impl
 
 Provide contextual information for the experiment; will be returned in the result set.
 
-Should be a hashref
-
+Should be a hashref.
 
 =item enabled(<TRUE>|<FALSE>)
 
@@ -78,10 +77,10 @@ Simply the name of the experiment included in the result set.
 
 =item publish
 
-Publish is a method called by ->run().
+Publish is a method called by C<-E<gt>run()>.
 
-Scientist is design so that you create your own personalised My::Scientist module and extend publish to do what you want/need.
-For example push timing and mismathc information to Statsd.
+Scientist is designed so that you create your own personalised My::Scientist module and extend C<publish> to do what you want/need.
+For example, to push timing and mismatch information to StatsD.
 
 =item use(<CODEREF>)
 
@@ -89,19 +88,19 @@ Control code to be included in the experiment.
 
 This code will be executed and returned when the experiment is run.
 
-NB: This code is run and returned even if experiment enabed=false.
+NB: This code is run and returned even if the experiment's C<enabled=false>.
 
 =item result()
 
 Result contains the result of the experiment after it is run.
 
-Will contain data only AFTER ->run() has been called.
+Will contain data only AFTER C<-E<gt>run()> has been called.
 
 Observation is included in the result, this inclides macthed/mismatched. If mismatched present will also have diagnostic present.
 
 =item run()
 
-This method executes the control (use) code and if experiment enabled will also run the candidate (try)
+This method executes the control (use) code. If the experiment is C<enabled>, will also run the candidate (try)
 code. The control and candidate code is run in random order.
 
 =item try(<CODEREF>)
