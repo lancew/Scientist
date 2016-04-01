@@ -22,9 +22,17 @@ is $experiment->result->{'mismatched'}, 1,
 is $experiment->result->{observation}{candidate}, 20, 'Observation Candidate data correct';
 is $experiment->result->{observation}{control},   10, 'Observation Control data correct';
 
-like $experiment->result->{observation}{diagnostic},
-     qr/got : '20'/,
-     'Observation diagnostic correct';
+my $expected_diag = q{
+	+------+-----+----+-------+
+	| PATH | GOT | OP | CHECK |
+	+------+-----+----+-------+
+	| [0]  | 20  | eq | 10    |
+	+------+-----+----+-------+};
+$expected_diag =~ s/^\s+//mg;
+
+is $experiment->result->{observation}{diagnostic},
+	$expected_diag,
+	'Observation diagnostic correct';
 
 $experiment->use( \&old_code );
 $experiment->try( \&old_code );
