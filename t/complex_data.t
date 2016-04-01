@@ -1,9 +1,5 @@
-use strict;
-use warnings;
-
+use Test2::Bundle::Extended;
 use Scientist;
-
-use Test::More;
 
 my $experiment = Scientist->new( experiment => 'MyTest' );
 is $experiment->experiment, 'MyTest',
@@ -22,7 +18,7 @@ $experiment->try( \&new_code );
 
 my $result = $experiment->run;
 
-is_deeply $result, [ { foo => 1 }, { bar => 'x' } ],
+is $result, [ { foo => 1 }, { bar => 'x' } ],
     'Returns the result of the "use" code';
 ok $experiment->result->{mismatched},
     'Correctly identified a mismatch between control and candidate';

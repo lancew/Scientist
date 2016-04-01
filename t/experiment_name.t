@@ -1,9 +1,5 @@
-use strict;
-use warnings;
-
+use Test2::Bundle::Extended;
 use Scientist;
-
-use Test::More;
 
 # Silly test for coverage:
 ok Scientist::name(), 'name() returns true';

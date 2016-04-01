@@ -1,9 +1,5 @@
-use strict;
-use warnings;
-
+use Test2::Bundle::Extended;
 use Scientist;
-
-use Test::More;
 
 package My::Scientist;
 use parent 'Scientist';
