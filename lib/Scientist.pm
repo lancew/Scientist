@@ -70,15 +70,15 @@ sub run {
 
     my ( @control, @candidate );
     my $run_control = sub {
-        my $start = Time::HiRes::time;
+        my $start = time;
         @control = $wantarray ? $self->use->() : scalar $self->use->();
-        $result{control}{duration} = Time::HiRes::time - $start;
+        $result{control}{duration} = time - $start;
     };
 
     my $run_candidate = sub {
-        my $start = Time::HiRes::time;
+        my $start = time;
         @candidate = $wantarray ? $self->try->() : scalar $self->try->();
-        $result{candidate}{duration} = Time::HiRes::time - $start;
+        $result{candidate}{duration} = time - $start;
     };
 
     if ( rand > 0.5 ) {
