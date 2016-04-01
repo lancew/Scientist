@@ -74,7 +74,7 @@ not be populated.
 
 =item experiment(<STRING>)
 
-DEFAULT : L</Functions/name()>'s output
+DEFAULT : C<name()>'s output
 
 Simply the name of the experiment included in the result set.
 
