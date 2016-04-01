@@ -6,7 +6,7 @@ use Scientist;
 use Test::More;
 
 my $experiment = Scientist->new(
-    experiment => 'Scientist Handles perl context correctly',
+    experiment => 'wantarray test',
     enabled    => 0
 );
 
