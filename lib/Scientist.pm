@@ -7,22 +7,42 @@ use warnings;
 use Moo;
 use Test::Deep::NoTest qw/deep_diag cmp_details/;
 use Time::HiRes 'time';
+use Types::Standard qw/Bool Str CodeRef HashRef/;
 
 # ABSTRACT: Perl module inspired by https://github.com/github/scientist
 # https://github.com/lancew/Scientist
 
-# TODO: Should limit to a hashref
-has 'context' => ( is => 'rw' );
+has 'context' => (
+    is       => 'rw',
+    isa      => HashRef,
+);
 
-has 'enabled' => ( is => 'rw', default => 1 );
+has 'enabled' => (
+    is       => 'rw',
+    isa      => Bool,
+    default  => 1,
+);
 
-has 'experiment' => ( is => 'rw' );
+has 'experiment' => (
+    is       => 'ro',
+    isa      => Str,
+    required => 1,
+);
 
-has 'use' => ( is => 'rw' );
+has 'use' => (
+    is       => 'rw',
+    isa      => CodeRef,
+);
 
-has 'result' => ( is => 'rw', );
+has 'result' => (
+    is       => 'rw',
+    isa      => HashRef,
+);
 
-has 'try' => ( is => 'rw' );
+has 'try' => (
+    is       => 'rw',
+    isa      => CodeRef,
+);
 
 sub publish {
     my $self = shift;
