@@ -1,9 +1,5 @@
-use strict;
-use warnings;
-
+use Test2::Bundle::Extended;
 use Scientist;
-
-use Test::More;
 
 my $experiment = Scientist->new( experiment => 'Test of Context' );
 
@@ -22,7 +18,7 @@ $experiment->context(
 
 my $result = $experiment->run;
 
-is_deeply $experiment->result->{context},
+is $experiment->result->{context},
     { one_key => 'first value', second_key => 'second value' },
     'result was given context';
 

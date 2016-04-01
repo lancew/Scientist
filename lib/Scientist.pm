@@ -26,7 +26,7 @@ has 'enabled' => (
 has 'experiment' => (
     is       => 'ro',
     isa      => Str,
-    required => 1,
+    builder  => 'name',
 );
 
 has 'use' => (
@@ -44,6 +44,10 @@ has 'try' => (
     isa      => CodeRef,
 );
 
+sub name {
+    return 'experiment';
+}
+
 sub publish {
     my $self = shift;
     # Stub publish sub, extend this to enable your own own
@@ -54,7 +58,7 @@ sub publish {
 sub run {
     my $self = shift;
 
-    # If experiement not enabled just return the control code results.
+    # If experiment not enabled just return the control code results.
     return $self->use->() unless $self->enabled;
 
     my %result = (
@@ -66,15 +70,15 @@ sub run {
 
     my ( @control, @candidate );
     my $run_control = sub {
-        my $start = Time::HiRes::time;
+        my $start = time;
         @control = $wantarray ? $self->use->() : scalar $self->use->();
-        $result{control}{duration} = Time::HiRes::time - $start;
+        $result{control}{duration} = time - $start;
     };
 
     my $run_candidate = sub {
-        my $start = Time::HiRes::time;
+        my $start = time;
         @candidate = $wantarray ? $self->try->() : scalar $self->try->();
-        $result{candidate}{duration} = Time::HiRes::time - $start;
+        $result{candidate}{duration} = time - $start;
     };
 
     if ( rand > 0.5 ) {

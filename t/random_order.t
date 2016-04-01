@@ -1,26 +1,29 @@
-use strict;
-use warnings;
-
+use Test2::Bundle::Extended;
 use Scientist;
 
-use Test::More;
-use Test::MockObject;
+# This is a race to see under normal conditions whether the
+# control() or the candidate() is run first.
+#
+# Ideally, they should each win half the time.
 
-my $test_thing = Test::MockObject->new;
-$test_thing->set_true('control');
-$test_thing->set_true('candidate');
+my $winner;
+my $test_thing = mock obj => (
+	add => [
+		control   => sub { $winner ||= 'control'   },
+		candidate => sub { $winner ||= 'candidate' },
+	],
+);
 
-my $experiment = Scientist->new( experiment => 'MyTest' );
-
-$experiment->use( sub { $test_thing->control } );
+my $experiment = Scientist->new( experiment => 'random order test' );
+$experiment->use( sub { $test_thing->control   } );
 $experiment->try( sub { $test_thing->candidate } );
 
-my %results = ( candidate => 0, control => 0 );
-for ( 1 .. 1000 ) {
-    my $test       = $experiment->run;
-    my $first_call = $test_thing->next_call();
-    $results{$first_call}++;
-    $test_thing->clear();
+# Race 1000 times and record each winner.
+my %results;
+for (1..1000) {
+	$experiment->run;
+	$results{$winner}++;
+	undef $winner;
 }
 
 note 'Control called first  :', $results{control};
