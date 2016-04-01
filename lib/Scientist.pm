@@ -58,7 +58,7 @@ sub publish {
 sub run {
     my $self = shift;
 
-    # If experiement not enabled just return the control code results.
+    # If experiment not enabled just return the control code results.
     return $self->use->() unless $self->enabled;
 
     my %result = (
