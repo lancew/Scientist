@@ -23,8 +23,7 @@ $experiment->context(
 my $result = $experiment->run;
 
 is_deeply $experiment->result->{context},
-    { one_key => 'first value', second_key => 'second value' };
-
-#TODO Add tests for what happens if we dont give a hash ref
+    { one_key => 'first value', second_key => 'second value' },
+    'result was given context';
 
 done_testing unless caller();
