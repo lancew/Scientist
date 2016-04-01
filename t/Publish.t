@@ -11,9 +11,12 @@ use parent 'Scientist';
 sub publish {
     my $self = shift;
     use Data::Dumper;
+
+    ## no critic qw(ErrorHandling::RequireCarping)
     die $self->result->{experiment};
 }
 
+## no critic qw(Modules::ProhibitMultiplePackages)
 package main;
 my $experiment = My::Scientist->new( experiment => 'Publish Test' );
 

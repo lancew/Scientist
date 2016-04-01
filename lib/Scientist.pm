@@ -2,6 +2,7 @@ package Scientist;
 
 use strict;
 use warnings;
+# VERSION
 
 use Moo;
 use Test::Deep::NoTest qw/deep_diag cmp_details/;
