@@ -26,7 +26,7 @@ has 'enabled' => (
 has 'experiment' => (
     is       => 'ro',
     isa      => Str,
-    required => 1,
+    builder  => 'name',
 );
 
 has 'use' => (
@@ -43,6 +43,10 @@ has 'try' => (
     is       => 'rw',
     isa      => CodeRef,
 );
+
+sub name {
+    return 'experiment';
+}
 
 sub publish {
     my $self = shift;

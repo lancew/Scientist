@@ -74,6 +74,8 @@ not be populated.
 
 =item experiment(<STRING>)
 
+DEFAULT : L</Functions/name()>'s output
+
 Simply the name of the experiment included in the result set.
 
 =item publish
@@ -109,6 +111,18 @@ code. The control and candidate code is run in random order.
 Candidate code to be included in the experiment.
 
 This code will be executed and discarded when the experiment is run.
+
+=back
+
+=head1 Functions
+
+=over
+
+=item name(<STRING>)
+
+DEFAULT : 'experiment'
+
+The default string name of the experiment. Intended to be optionally overriden in a subclass.
 
 =back
 
