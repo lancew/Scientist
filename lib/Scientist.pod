@@ -135,7 +135,7 @@ You can create your own Scientist module and use it to create a custom publishin
 
 Below is a small example that pushes mismatch info and timings to StatsD:
 
-# My/Scientist.pm
+=head2 My/Scientist.pm
 
   package My::Scientist;
   use parent 'Scientist';
@@ -158,7 +158,7 @@ Below is a small example that pushes mismatch info and timings to StatsD:
 
   1;
 
-# SomePerlScript.pl
+=head2 SomePerlScript.pl
 
   use strict;
   use warnings;
