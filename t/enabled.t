@@ -1,23 +1,14 @@
-use strict;
-use warnings;
-
+use Test2::Bundle::Extended;
 use Scientist;
 
-use Test::More;
-
-my $experiment = Scientist->new( experiment => 'MyTest' );
-
-sub old_code {
-    return 10;
-}
-
-$experiment->use( \&old_code );
-
-$experiment->enabled(0);
+my $experiment = Scientist->new(
+    experiment => 'Enabled Test',
+    use        => sub { 10 },
+    enabled    => 0,
+);
 
 my $result = $experiment->run;
 is $result, 10, 'Returns the result of the "use" code';
-
 is $experiment->result, undef, 'Result is not set if experiment not enabled';
 
 done_testing unless caller();
