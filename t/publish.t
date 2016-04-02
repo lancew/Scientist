@@ -5,32 +5,23 @@ package My::Scientist;
 use parent 'Scientist';
 
 sub publish {
-    my $self = shift;
-    use Data::Dumper;
-
+	my $self = shift;
     ## no critic qw(ErrorHandling::RequireCarping)
     die $self->result->{experiment};
 }
 
 ## no critic qw(Modules::ProhibitMultiplePackages)
 package main;
-my $experiment = My::Scientist->new( experiment => 'Publish Test' );
+my $experiment = My::Scientist->new(
+	experiment => 'Publish Test',
+	use        => sub { 10 },
+	try        => sub { 20 },
+);
 
-sub old_code {
-    return 10;
-}
-
-sub new_code {
-    return 20;
-}
-
-$experiment->use( \&old_code );
-$experiment->try( \&new_code );
-
-my $result = eval { $experiment->run };
-my $string = $@;
-chomp $string;
-like $string, qr/Publish Test/,
-    'Experiment name is in publish die statement as expected.';
+like(
+	dies { $experiment->run },
+    qr/Publish Test/,
+    'Experiment name is in publish die statement as expected.',
+);
 
 done_testing unless caller();
