@@ -30,34 +30,6 @@ subtest enabled => sub {
     is $experiment->result, undef, 'Result is not set if experiment not enabled';
 };
 
-subtest enabled_percent => sub {
-    is [ run_pct(0,  100) ], [  0, 100 ], 'candidate should run 0x; control: 100x';
-    is [ run_pct(33, 100) ], [ 33, 100 ], 'candidate should run 33x; control: 100x';
-    is [ run_pct(10, 200) ], [ 20, 200 ], 'candidate should run 20x; control: 200x';
-};
-
-sub run_pct {
-    my ($pct_enabled, $runs) = @_;
-
-    die "You must run the experiment at least 100x" if $runs < 100;
-
-    my %call_counts = (
-        control   => 0,
-        candidate => 0,
-    );
-
-    require Lazy::Scientist;
-    my $experiment = Lazy::Scientist->new(
-        use         => sub { ++$call_counts{control} },
-        try         => sub { ++$call_counts{candidate} },
-        pct_enabled => $pct_enabled,
-    );
-
-    $experiment->run for 1..$runs;
-
-    return ( $call_counts{candidate}, $call_counts{control} );
-}
-
 subtest experiment => sub {
     is $CLASS->new->experiment, 'experiment', 'got default experiment name()';
 };
@@ -181,11 +153,11 @@ subtest result_observation => sub {
         'Observation control data correct';
 
     is $experiment->result->{observation}{diagnostic},
-        ( "+------+-----+----+-------+\n"
-        . "| PATH | GOT | OP | CHECK |\n"
-        . "+------+-----+----+-------+\n"
-        . "| [0]  | 20  | eq | 10    |\n"
-        . "+------+-----+----+-------+" ),
+        ( "+------+---------+----+-----------+\n"
+        . "| PATH | CONTROL | OP | CANDIDATE |\n"
+        . "+------+---------+----+-----------+\n"
+        . "| [0]  | 20      | eq | 10        |\n"
+        . "+------+---------+----+-----------+" ),
         'Observation diagnostic correct';
 };
 

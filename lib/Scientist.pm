@@ -6,6 +6,7 @@ use warnings;
 
 use Moo;
 use Test2::API qw/intercept/;
+use Test2::Compare::Delta qw//;
 use Test2::Tools::Compare qw/is/;
 use Time::HiRes qw/time/;
 use Types::Standard qw/Bool Str CodeRef HashRef/;
@@ -114,6 +115,12 @@ sub run {
     $self->publish;
 
     return $wantarray ? @control : $control[0];
+}
+
+# Use better column header names in the observation diagnostic table.
+sub BUILD {
+    Test2::Compare::Delta->set_column_alias(GOT   => 'CONTROL');
+    Test2::Compare::Delta->set_column_alias(CHECK => 'CANDIDATE');
 }
 
 1;
