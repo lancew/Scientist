@@ -1,20 +1,15 @@
 use Test2::Bundle::Extended;
 use Scientist;
 
-my $experiment = Scientist->new( experiment => 'Test of Context' );
+my $experiment = Scientist->new(
+	experiment => 'Test of Context',
+	use        => sub { 10 },
+	try        => sub { 20 },
+);
 
-sub old_code {
-    return 10;
-}
-
-sub new_code {
-    return 20;
-}
-
-$experiment->use( \&old_code );
-$experiment->try( \&new_code );
 $experiment->context(
-    { one_key => 'first value', second_key => 'second value' } );
+    { one_key => 'first value', second_key => 'second value' },
+);
 
 my $result = $experiment->run;
 
