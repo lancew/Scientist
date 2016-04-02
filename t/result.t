@@ -74,11 +74,11 @@ subtest result_observation => sub {
         'Observation control data correct';
 
     is $experiment->result->{observation}{diagnostic},
-        ( "+------+-----+----+-------+\n"
-        . "| PATH | GOT | OP | CHECK |\n"
-        . "+------+-----+----+-------+\n"
-        . "| [0]  | 20  | eq | 10    |\n"
-        . "+------+-----+----+-------+" ),
+        ( "+------+---------+----+-----------+\n"
+        . "| PATH | CONTROL | OP | CANDIDATE |\n"
+        . "+------+---------+----+-----------+\n"
+        . "| [0]  | 20      | eq | 10        |\n"
+        . "+------+---------+----+-----------+" ),
         'Observation diagnostic correct';
 };
 
