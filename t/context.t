@@ -1,25 +1,18 @@
-use Test2::Bundle::Extended;
-use Scientist;
+use Test2::Bundle::Extended -target => 'Scientist';
 
-my $experiment = Scientist->new( experiment => 'Test of Context' );
+my $ctx = {
+    one_key    => 'first value',
+    second_key => 'second value',
+};
 
-sub old_code {
-    return 10;
-}
-
-sub new_code {
-    return 20;
-}
-
-$experiment->use( \&old_code );
-$experiment->try( \&new_code );
-$experiment->context(
-    { one_key => 'first value', second_key => 'second value' } );
+my $experiment = $CLASS->new(
+    use        => sub { 10 },
+    try        => sub { 20 },
+    context    => $ctx,
+);
 
 my $result = $experiment->run;
 
-is $experiment->result->{context},
-    { one_key => 'first value', second_key => 'second value' },
-    'result was given context';
+is $experiment->result->{context}, $ctx, 'result was given context';
 
-done_testing unless caller();
+done_testing;
