@@ -2,9 +2,9 @@ use Test2::Bundle::Extended;
 use Scientist;
 
 my $experiment = Scientist->new(
-	experiment => 'Test of Context',
-	use        => sub { 10 },
-	try        => sub { 20 },
+    experiment => 'Test of Context',
+    use        => sub { 10 },
+    try        => sub { 20 },
 );
 
 $experiment->context(
