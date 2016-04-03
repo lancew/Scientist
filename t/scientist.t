@@ -17,6 +17,22 @@ subtest result => sub {
     is $result, 10, 'Returns the result of the "use" code';
 };
 
+subtest result_mismatch => sub {
+    my $old = [ { foo => 1 }, { bar => 'x'   } ];
+    my $new = [ { for => 1 }, { bar => 'ZZZ' } ];
+
+    my $experiment = $CLASS->new(
+        use => sub { $old },
+        try => sub { $new },
+    );
+
+   my $result = $experiment->run;
+
+   is $result, $old, 'Returns the result of the "use" code';
+   ok $experiment->result->{mismatched},
+       'Correctly identified a mismatch between control and candidate';
+};
+
 subtest result_duration => sub {
     my $experiment = $CLASS->new(
         use => sub { 10 },
@@ -55,6 +71,21 @@ subtest result_observation => sub {
         . "| [0]  | 20  | eq | 10    |\n"
         . "+------+-----+----+-------+" ),
         'Observation diagnostic correct';
+};
+
+subtest result_match => sub {
+    my $data = [ { foo => 1 }, { bar => 'x' } ];
+
+    my $experiment = $CLASS->new(
+        use => sub { $data },
+        try => sub { $data },
+    );
+
+    my $result = $experiment->run;
+
+    is $result, $data, 'Returns the result of the "use" code';
+    ok !$experiment->result->{mismatched},
+        'Correctly identified no mismatch between control and candidate';
 };
 
 done_testing;
