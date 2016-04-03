@@ -30,24 +30,33 @@ subtest enabled => sub {
     is $experiment->result, undef, 'Result is not set if experiment not enabled';
 };
 
-subtest enabled_ratio => sub {
-    require Lazy::Scientist;
+subtest enabled_percent => sub {
+    is [ run_pct(0,  100) ], [  0, 100 ], 'candidate should run 0x; control: 100x';
+    is [ run_pct(33, 100) ], [ 33, 100 ], 'candidate should run 33x; control: 100x';
+    is [ run_pct(10, 200) ], [ 20, 200 ], 'candidate should run 20x; control: 200x';
+};
 
-    my %call_counts;
-    my $experiment = Lazy::Scientist->new(
-        use => sub { ++$call_counts{control} },
-        try => sub { ++$call_counts{candidate} },
+sub run_pct {
+    my ($pct_enabled, $runs) = @_;
+
+    die "You must run the experiment at least 100x" if $runs < 100;
+
+    my %call_counts = (
+        control   => 0,
+        candidate => 0,
     );
 
-    $experiment->run for 1..100;
+    require Lazy::Scientist;
+    my $experiment = Lazy::Scientist->new(
+        use         => sub { ++$call_counts{control} },
+        try         => sub { ++$call_counts{candidate} },
+        pct_enabled => $pct_enabled,
+    );
 
-    note "Control called  : $call_counts{control}";
-    note "Candidate called: $call_counts{candidate}";
+    $experiment->run for 1..$runs;
 
-    is $call_counts{control}, 100, 'Control code always ran';
-    ok $call_counts{candidate} >= 6 && $call_counts{candidate} <= 14,
-        'Candidate code ran about 10% of the time';
-};
+    return ( $call_counts{candidate}, $call_counts{control} );
+}
 
 subtest experiment => sub {
     is $CLASS->new->experiment, 'experiment', 'got default experiment name()';
