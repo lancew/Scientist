@@ -95,6 +95,35 @@ subtest publish => sub {
     );
 };
 
+subtest random_order => sub {
+    my $winner;
+    my $test_thing = mock obj => (
+        add => [
+            control   => sub { $winner ||= 'control'   },
+            candidate => sub { $winner ||= 'candidate' },
+        ],
+    );
+
+    my $experiment = $CLASS->new(
+        use => sub { $test_thing->control   },
+        try => sub { $test_thing->candidate },
+    );
+
+    # Race 1000 times and record each winner.
+    my %results;
+    for (1..100) {
+        $experiment->run;
+        $results{$winner}++;
+        undef $winner;
+    }
+
+    note "Control called first  : $results{control}";
+    note "Candidate called first: $results{candidate}";
+
+    ok $results{control} > 45,   '>40% Control code run first';
+    ok $results{candidate} > 45, '>40% Candidate code run first';
+};
+
 subtest result_mismatch => sub {
     my $old = [ { foo => 1 }, { bar => 'x'   } ];
     my $new = [ { for => 1 }, { bar => 'ZZZ' } ];
