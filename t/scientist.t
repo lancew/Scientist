@@ -109,7 +109,7 @@ subtest random_order => sub {
         try => sub { $test_thing->candidate },
     );
 
-    # Race 1000 times and record each winner.
+    # Race 100 times and record each winner.
     my %results;
     for (1..100) {
         $experiment->run;
@@ -120,8 +120,8 @@ subtest random_order => sub {
     note "Control called first  : $results{control}";
     note "Candidate called first: $results{candidate}";
 
-    ok $results{control} > 45,   '>40% Control code run first';
-    ok $results{candidate} > 45, '>40% Candidate code run first';
+    ok $results{control} > 40,   '>40% Control code run first';
+    ok $results{candidate} > 40, '>40% Candidate code run first';
 };
 
 subtest result_mismatch => sub {
@@ -194,7 +194,6 @@ subtest result_match => sub {
     ok !$experiment->result->{mismatched},
         'Correctly identified no mismatch between control and candidate';
 };
-
 
 subtest wantarray_only_control => sub {
     my @a = qw/one two three/;
