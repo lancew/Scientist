@@ -49,6 +49,21 @@ subtest enabled_ratio => sub {
         'Candidate code ran about 10% of the time';
 };
 
+subtest experiment => sub {
+    is $CLASS->new->experiment, 'experiment', 'got default experiment name()';
+};
+
+subtest name => sub {
+    is Scientist::name(), 'experiment', 'name() is set.';
+};
+
+subtest named_subclass => sub {
+    require Named::Scientist;
+
+    my $experiment = Named::Scientist->new;
+    is $experiment->experiment, 'joe', 'inherited experiment name()';
+};
+
 subtest new => sub {
     ok $CLASS->new, 'new()';
 };
