@@ -195,4 +195,38 @@ subtest result_match => sub {
         'Correctly identified no mismatch between control and candidate';
 };
 
+
+subtest wantarray_only_control => sub {
+    my @a = qw/one two three/;
+    my $experiment = $CLASS->new(
+        use     => sub { wantarray ? @a : "@a" },
+        enabled => 0,
+    );
+
+    $experiment->run;
+
+    my $scalar_result = $experiment->run;
+    my @list_result   = $experiment->run;
+
+    is $scalar_result, 'one two three', 'Got scalar result';
+    is \@list_result, \@a, 'Got list result';
+};
+
+subtest wantarray_with_candidate => sub {
+    my @a = qw/one two three/;
+
+    my $experiment = $CLASS->new(
+        use => sub { wantarray ? @a : "@a" },
+        try => sub { wantarray ? @a : "@a" },
+    );
+
+    $experiment->run;
+
+    my $scalar_result = $experiment->run;
+    my @list_result   = $experiment->run;
+
+    is $scalar_result, 'one two three', 'Got scalar result';
+    is \@list_result, \@a, 'Got list result';
+};
+
 done_testing;
