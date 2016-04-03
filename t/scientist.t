@@ -79,6 +79,22 @@ subtest result => sub {
     is $result, 10, 'Returns the result of the "use" code';
 };
 
+subtest publish => sub {
+    require Publishing::Scientist;
+
+    my $experiment = Publishing::Scientist->new(
+        experiment => 'publish and die',
+        use        => sub { 10 },
+        try        => sub { 20 },
+    );
+
+    like(
+        dies { $experiment->run },
+        qr/publish and die/,
+        'Experiment name is in publish die statement as expected.',
+    );
+};
+
 subtest result_mismatch => sub {
     my $old = [ { foo => 1 }, { bar => 'x'   } ];
     my $new = [ { for => 1 }, { bar => 'ZZZ' } ];
