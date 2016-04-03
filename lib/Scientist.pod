@@ -180,6 +180,7 @@ Lance Wicks <lancew@cpan.org>
 =head1 CONTRIBUTORS
 
 James Raspass
+
 Joshua Keroes
 
 =head1 COPYRIGHT AND LICENSE
