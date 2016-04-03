@@ -1,51 +1,60 @@
-use Test2::Bundle::Extended;
-use Scientist;
+use Test2::Bundle::Extended -target => 'Scientist';
 
-my $experiment = Scientist->new( experiment => 'MyTest' );
+use lib "t/lib";
 
-sub old_code {
-    return 10;
-}
+subtest new => sub {
+    ok $CLASS->new, 'new()';
+};
 
-sub new_code {
-    return 20;
-}
+subtest result => sub {
+    my $experiment = $CLASS->new(
+        use => sub { 10 },
+        try => sub { 20 },
+    );
 
-$experiment->use( \&old_code );
-$experiment->try( \&new_code );
+    my $result = $experiment->run;
 
-my $result = $experiment->run;
-is $result, 10, 'Returns the result of the "use" code';
-is $experiment->result->{'mismatched'}, 1,
-    'Correctly identified a mismatch between control and candidate';
+    is $result, 10, 'Returns the result of the "use" code';
+};
 
-is $experiment->result->{observation}{candidate}, 20, 'Observation Candidate data correct';
-is $experiment->result->{observation}{control},   10, 'Observation Control data correct';
+subtest result_duration => sub {
+    my $experiment = $CLASS->new(
+        use => sub { 10 },
+        try => sub { 20 },
+    );
 
-my $expected_diag = q{
-    +------+-----+----+-------+
-    | PATH | GOT | OP | CHECK |
-    +------+-----+----+-------+
-    | [0]  | 20  | eq | 10    |
-    +------+-----+----+-------+};
-$expected_diag =~ s/^\s+//mg;
+    $experiment->run;
 
-is $experiment->result->{observation}{diagnostic},
-    $expected_diag,
-    'Observation diagnostic correct';
+    ok $experiment->result->{control}{duration} > 0,
+        'Returns duration timing of control';
 
-$experiment->use( \&old_code );
-$experiment->try( \&old_code );
+    ok $experiment->result->{candidate}{duration} > 0,
+        'Returns duration timing of candidate';
+};
 
-$result = $experiment->run;
-is $experiment->result->{mismatched}, 0,
-    'Correctly identified a match between control and candidate';
-is $experiment->result->{experiment}, 'MyTest',
-    'Experiment (name of experiment) returned in results';
+subtest result_observation => sub {
+    my $experiment = $CLASS->new(
+        use => sub { 10 },
+        try => sub { 20 },
+    );
 
-# Do we have timing data
-ok $experiment->result->{control}{duration} > 0,
-    'Returns duration timing of control';
-ok $experiment->result->{candidate}{duration} > 0,
-    'Returns duration timing of candidate';
-done_testing unless caller();
+    $experiment->run;
+
+    is $experiment->result->{observation}{candidate},
+        20,
+        'Observation candidate data correct';
+
+    is $experiment->result->{observation}{control},
+        10,
+        'Observation control data correct';
+
+    is $experiment->result->{observation}{diagnostic},
+        ( "+------+-----+----+-------+\n"
+        . "| PATH | GOT | OP | CHECK |\n"
+        . "+------+-----+----+-------+\n"
+        . "| [0]  | 20  | eq | 10    |\n"
+        . "+------+-----+----+-------+" ),
+        'Observation diagnostic correct';
+};
+
+done_testing;
