@@ -30,6 +30,25 @@ subtest enabled => sub {
     is $experiment->result, undef, 'Result is not set if experiment not enabled';
 };
 
+subtest enabled_ratio => sub {
+    require Lazy::Scientist;
+
+    my %call_counts;
+    my $experiment = Lazy::Scientist->new(
+        use => sub { ++$call_counts{control} },
+        try => sub { ++$call_counts{candidate} },
+    );
+
+    $experiment->run for 1..100;
+
+    note "Control called  : $call_counts{control}";
+    note "Candidate called: $call_counts{candidate}";
+
+    is $call_counts{control}, 100, 'Control code always ran';
+    ok $call_counts{candidate} >= 6 && $call_counts{candidate} <= 14,
+        'Candidate code ran about 10% of the time';
+};
+
 subtest new => sub {
     ok $CLASS->new, 'new()';
 };
