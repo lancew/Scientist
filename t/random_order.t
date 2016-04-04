@@ -8,10 +8,10 @@ use Scientist;
 
 my $winner;
 my $test_thing = mock obj => (
-	add => [
-		control   => sub { $winner ||= 'control'   },
-		candidate => sub { $winner ||= 'candidate' },
-	],
+    add => [
+        control   => sub { $winner ||= 'control'   },
+        candidate => sub { $winner ||= 'candidate' },
+    ],
 );
 
 my $experiment = Scientist->new( experiment => 'random order test' );
@@ -21,9 +21,9 @@ $experiment->try( sub { $test_thing->candidate } );
 # Race 1000 times and record each winner.
 my %results;
 for (1..1000) {
-	$experiment->run;
-	$results{$winner}++;
-	undef $winner;
+    $experiment->run;
+    $results{$winner}++;
+    undef $winner;
 }
 
 note 'Control called first  :', $results{control};
