@@ -99,7 +99,7 @@ Result contains the result of the experiment after it is run.
 
 Will contain data only AFTER C<-E<gt>run()> has been called.
 
-Observation is included in the result, this inclides macthed/mismatched. If mismatched present will also have diagnostic present.
+Observation is included in the result, this includes matched/mismatched. If mismatched present will also have diagnostic present.
 
 =item run()
 
