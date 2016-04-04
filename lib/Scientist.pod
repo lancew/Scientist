@@ -74,7 +74,7 @@ not be populated.
 
 =item experiment(<STRING>)
 
-DEFAULT : L</Functions/name()>'s output
+DEFAULT : C<name()>'s output
 
 Simply the name of the experiment included in the result set.
 
@@ -99,7 +99,10 @@ Result contains the result of the experiment after it is run.
 
 Will contain data only AFTER C<-E<gt>run()> has been called.
 
-Observation is included in the result, this inclides macthed/mismatched. If mismatched present will also have diagnostic present.
+Observation is included in the result, this includes matched/mismatched. If
+there was a mismatch, then a diagnostic will be made available. This will
+display what was expected (from the control) and what we got instead (from the
+candidate).
 
 =item run()
 
@@ -132,7 +135,7 @@ You can create your own Scientist module and use it to create a custom publishin
 
 Below is a small example that pushes mismatch info and timings to StatsD:
 
-# My/Scientist.pm
+=head2 My/Scientist.pm
 
   package My::Scientist;
   use parent 'Scientist';
@@ -155,7 +158,7 @@ Below is a small example that pushes mismatch info and timings to StatsD:
 
   1;
 
-# SomePerlScript.pl
+=head2 SomePerlScript.pl
 
   use strict;
   use warnings;
@@ -177,6 +180,7 @@ Lance Wicks <lancew@cpan.org>
 =head1 CONTRIBUTORS
 
 James Raspass
+
 Joshua Keroes
 
 =head1 COPYRIGHT AND LICENSE
