@@ -1,36 +1,35 @@
-use Test2::Bundle::Extended;
-use Scientist;
+use Test2::Bundle::Extended -target => 'Scientist';
 
-my $experiment = Scientist->new(
-    experiment => 'wantarray test',
-    enabled    => 0
-);
+subtest wantarray_only_control => sub {
+    my $experiment = $CLASS->new(
+        use     => \&whattayawant,
+        enabled => 0,
+    );
 
-my @a = ( 'one', 'two', 'three' );
+    my $scalar_result = $experiment->run;
+    my @list_result   = $experiment->run;
 
-sub old_code {
-    return wantarray ? @a : "@a";
+    is $scalar_result, 'one two three', 'Got scalar result';
+    is \@list_result, [qw/one two three/], 'Got list result';
+};
+
+subtest wantarray_with_candidate => sub {
+    my @a = qw/one two three/;
+
+    my $experiment = $CLASS->new(
+        use => \&whattayawant,
+        try => \&whattayawant,
+    );
+
+    my $scalar_result = $experiment->run;
+    my @list_result   = $experiment->run;
+
+    is $scalar_result, 'one two three', 'Got scalar result';
+    is \@list_result, [qw/one two three/], 'Got list result';
+};
+
+sub whattayawant {
+    return wantarray ? qw/one two three/ : "one two three";
 }
 
-sub new_code {
-    return wantarray ? @a : "@a";
-}
-
-$experiment->use( \&old_code );
-$experiment->try( \&new_code );
-
-my $result = $experiment->run;
-is $result, 'one two three', "Scalar context";
-
-my @result = $experiment->run;
-is \@result, [ 'one', 'two', 'three' ], "List context";
-
-# Test again with experiment enabled.
-$experiment->enabled(1);
-$result = $experiment->run;
-is $result, 'one two three', "Scalar context";
-
-@result = $experiment->run;
-is \@result, [ 'one', 'two', 'three' ], "List context";
-
-done_testing unless caller();
+done_testing;
