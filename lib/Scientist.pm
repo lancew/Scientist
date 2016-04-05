@@ -77,7 +77,9 @@ sub run {
 
     my $run_candidate = sub {
         my $start = time;
-        @candidate = $wantarray ? $self->try->() : scalar $self->try->();
+        @candidate = $wantarray
+            ? eval { $self->try->() }
+            : eval { scalar $self->try->() };
         $result{candidate}{duration} = time - $start;
     };
 
