@@ -10,5 +10,5 @@ perl:
   - "5.10"
   - "5.8"
 install: cpanm -nq Devel::Cover::Report::Coveralls Moo Test2::Suite Test::Deep::NoTest Types::Standard
-script: PERL5OPT=-MDevel::Cover prove -lv
+script: PERL5OPT=-MDevel::Cover prove -lvr
 after_success: cover -report coveralls
