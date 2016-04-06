@@ -1,3 +1,10 @@
+0.008 2016-xx-xx
+    - WIP
+    - Fix regression where candidate code was not in eval{}
+    - Test2 over Test::More
+    - Use more Dzil modules
+    - Documentation clean up
+    - Welcoming Joshua Keroes as contributor
 0.007 2016-03-25
     - Add matched/mismatched
     - Add observation
