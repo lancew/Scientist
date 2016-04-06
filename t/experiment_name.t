@@ -1,19 +1,19 @@
-use Test2::Bundle::Extended;
-use Scientist;
+use Test2::Bundle::Extended -target => 'Scientist';
 
-# Silly test for coverage:
-ok Scientist::name(), 'name() returns true';
+use lib 't/lib';
+use Named::Scientist;
 
-# Actual test to name() in a subclass:
-package My::Scientist;
-use parent 'Scientist';
+subtest experiment => sub {
+    is $CLASS->new->experiment, 'experiment', 'got default experiment name()';
+};
 
-sub name { "new name" }
+subtest name => sub {
+    is Scientist::name(), 'experiment', 'name() is set.';
+};
 
-## no critic qw(Modules::ProhibitMultiplePackages)
-package main;
-
-my $sci = My::Scientist->new;
-is $sci->experiment, 'new name', "Got overriden name() via experiment()";
+subtest named_subclass => sub {
+    my $experiment = Named::Scientist->new;
+    is $experiment->experiment, 'joe', 'inherited experiment name()';
+};
 
 done_testing;
