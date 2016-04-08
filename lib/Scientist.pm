@@ -6,7 +6,7 @@ use warnings;
 
 use Moo;
 use Test::Deep::NoTest qw/deep_diag cmp_details/;
-use Time::HiRes 'time';
+use Time::HiRes();
 use Types::Standard qw/Bool Str CodeRef HashRef/;
 
 use namespace::clean;
@@ -15,36 +15,37 @@ use namespace::clean;
 # https://github.com/lancew/Scientist
 
 has 'context' => (
-    is       => 'rw',
-    isa      => HashRef,
+    is  => 'rw',
+    isa => HashRef,
 );
 
 has 'enabled' => (
-    is       => 'rw',
-    isa      => Bool,
-    default  => 1,
+    is      => 'rw',
+    isa     => Bool,
+    default => 1,
 );
 
 has 'experiment' => (
-    is       => 'ro',
-    isa      => Str,
-    builder  => 'name',
+    is      => 'ro',
+    isa     => Str,
+    builder => 'name',
 );
 
 has 'use' => (
-    is       => 'rw',
-    isa      => CodeRef,
+    is  => 'rw',
+    isa => CodeRef,
 );
 
 has 'result' => (
-    is       => 'rw',
-    isa      => HashRef,
+    is  => 'rw',
+    isa => HashRef,
 );
 
 has 'try' => (
-    is       => 'rw',
-    isa      => CodeRef,
+    is  => 'rw',
+    isa => CodeRef,
 );
+
 
 sub name {
     return 'experiment';
@@ -72,17 +73,18 @@ sub run {
 
     my ( @control, @candidate );
     my $run_control = sub {
-        my $start = time;
+        my $start = Time::HiRes::time;
         @control = $wantarray ? $self->use->() : scalar $self->use->();
-        $result{control}{duration} = time - $start;
+        $result{control}{duration} = Time::HiRes::time - $start;
     };
 
     my $run_candidate = sub {
-        my $start = time;
-        @candidate = $wantarray
+        my $start = Time::HiRes::time;
+        @candidate
+            = $wantarray
             ? eval { $self->try->() }
             : eval { scalar $self->try->() };
-        $result{candidate}{duration} = time - $start;
+        $result{candidate}{duration} = Time::HiRes::time - $start;
     };
 
     if ( rand > 0.5 ) {
@@ -94,14 +96,14 @@ sub run {
         $run_control->();
     }
 
-    my ($ok, $stack)    = cmp_details( \@candidate, \@control );
+    my ( $ok, $stack ) = cmp_details( \@candidate, \@control );
     $result{matched}    = $ok ? 1 : 0;
     $result{mismatched} = $ok ? 0 : 1;
 
     $result{observation}{candidate} = $wantarray ? @candidate : $candidate[0];
-    $result{observation}{control}   = $wantarray ? @control : $control[0];
+    $result{observation}{control}   = $wantarray ? @control   : $control[0];
 
-    if ($result{mismatched}){
+    if ( $result{mismatched} ) {
         $result{observation}{diagnostic} = deep_diag($stack);
     }
 
