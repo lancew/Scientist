@@ -6,9 +6,8 @@ use warnings;
 
 use Moo;
 use Test::Deep::NoTest qw/deep_diag cmp_details/;
-use Time::HiRes();
+use Time::HiRes ();
 use Types::Standard qw/Bool Str CodeRef HashRef/;
-
 use namespace::clean;
 
 # ABSTRACT: Perl module inspired by https://github.com/github/scientist
@@ -45,7 +44,6 @@ has 'try' => (
     is  => 'rw',
     isa => CodeRef,
 );
-
 
 sub name {
     return 'experiment';
