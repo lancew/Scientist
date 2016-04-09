@@ -12,7 +12,6 @@ is [ sort keys %Scientist:: ], [
     qw/
         BEGIN
         ISA
-        VERSION
         __ANON__
         __NAMESPACE_CLEAN_STORAGE
         can
