@@ -1,5 +1,6 @@
-0.008 2016-xx-xx
+0.009 2016-xx-xx
     - WIP
+0.008 2016-04-27
     - Fix regression where candidate code was not in eval{}
     - Test2 over Test::More
     - Use more Dzil modules
