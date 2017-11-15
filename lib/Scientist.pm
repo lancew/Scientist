@@ -1,7 +1,5 @@
 package Scientist;
 
-use strict;
-use warnings;
 # VERSION
 
 use Moo;
