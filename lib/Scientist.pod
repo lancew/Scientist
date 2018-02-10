@@ -187,6 +187,8 @@ James Raspass
 
 Joshua Keroes
 
+Mohammad S Anwar
+
 =head1 COPYRIGHT AND LICENSE
 
 This software is Copyright (c) 2016 by Lance Wicks.
