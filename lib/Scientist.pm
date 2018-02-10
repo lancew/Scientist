@@ -1,5 +1,11 @@
 package Scientist;
 
+# Explicitly enabling strict and warnings, despite Moo doing this also
+# for two reasons, A) to make perlcritic pass and B) in case we change
+# modules later to use soemthing else. Suggestions welcomed though.
+use strict;
+use warnings;
+
 # VERSION
 
 use Moo;
@@ -112,6 +118,7 @@ sub run {
 sub BUILD {
     Test2::Compare::Delta->set_column_alias(GOT   => 'CONTROL');
     Test2::Compare::Delta->set_column_alias(CHECK => 'CANDIDATE');
+    return;
 }
 
 1;
