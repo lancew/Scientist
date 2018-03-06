@@ -1,17 +1,11 @@
 package Scientist;
 
-# Explicitly enabling strict and warnings, despite Moo doing this also
-# for two reasons, A) to make perlcritic pass and B) in case we change
-# modules later to use soemthing else. Suggestions welcomed though.
-use strict;
-use warnings;
-
-# VERSION
-
 use Moo;
 use Test2::Compare qw/compare strict_convert/;
 use Time::HiRes qw/time/;
 use Types::Standard qw/Bool Str CodeRef HashRef/;
+
+# VERSION
 
 # ABSTRACT: Perl module inspired by https://github.com/github/scientist
 # https://github.com/lancew/Scientist
