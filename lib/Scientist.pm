@@ -1,9 +1,10 @@
 package Scientist;
 
+use Scientist::Result;
 use Moo;
 use Test2::Compare qw/compare strict_convert/;
 use Time::HiRes qw/time/;
-use Types::Standard qw/Bool Str CodeRef HashRef/;
+use Types::Standard qw/Object Bool Str CodeRef HashRef/;
 
 # VERSION
 
@@ -34,7 +35,7 @@ has 'use' => (
 
 has 'result' => (
     is       => 'rw',
-    isa      => HashRef,
+    isa      => Object,
 );
 
 has 'try' => (
@@ -102,7 +103,7 @@ sub run {
         diagnostic => $diag,
     };
 
-    $self->result( \%result );
+    $self->result( Scientist::Result->new(\%result) );
     $self->publish;
 
     return $wantarray ? @control : $control[0];
