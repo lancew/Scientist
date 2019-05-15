@@ -1,7 +1,8 @@
+## no critic (Miscellanea::ProhibitUnrestrictedNoCritic, ValuesAndExpressions::ProhibitVersionStrings)
 package Scientist;
 
 use Moo;
-use Test2::Compare qw/compare strict_convert/;
+use Test2::Compare v0.0.121 qw/compare strict_convert/;
 use Time::HiRes qw/time/;
 use Types::Standard qw/Bool Str CodeRef HashRef/;
 
@@ -91,7 +92,7 @@ sub run {
     }
 
     my $delta = compare(\@candidate, \@control, \&strict_convert);
-    my $diag  = join "\n", $delta ? $delta->table : ();
+    my $diag  = $delta ? $delta->table->as_string : '';
 
     $result{matched}    = $diag eq '';
     $result{mismatched} = $diag ne '';
