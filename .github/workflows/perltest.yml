@@ -29,4 +29,4 @@ jobs:
       - run: perl -V
       - run: cpanm -nq Devel::Cover::Report::Coveralls Moo Test2::Suite~0.000025 Types::Standard
       - run: PERL5OPT=-MDevel::Cover prove -lv
-      - run: cover -report coveralls
+      - run: cover -report text
