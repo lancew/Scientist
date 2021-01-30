@@ -27,6 +27,5 @@ jobs:
         with:
           perl-version: ${{ matrix.perl }}
       - run: perl -V
-      - run: cpanm -nq Devel::Cover::Report::Coveralls Moo Test2::Suite~0.000025 Types::Standard
-      - run: export PERL5OPT=-MDevel::Cover prove -lv
-      - run: cover -report text
+      - run: cpanm -nq Moo Test2::V0 Types::Standard
+      - run: prove -lv
