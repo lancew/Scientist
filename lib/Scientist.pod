@@ -38,11 +38,11 @@ Perl module inspired by https://github.com/github/scientist ( http://githubengin
 
   say "The number ten is $answer";
   warn 'There was a mismatch between control and candidate'
-    if $experiment->result->{'mismatched'};
+    if $experiment->result->mismatched;
 
   say 'Timings:';
-  say 'Control code:   ', $experiment->result->{control}{duration}, ' microseconds';
-  say 'Candidate code: ', $experiment->result->{candidate}{duration}, ' microseconds';
+  say 'Control code:   ', $experiment->result->control->duration, ' microseconds';
+  say 'Candidate code: ', $experiment->result->candidate->duration, ' microseconds';
 
 =head1 Introduction
 
@@ -95,7 +95,7 @@ NB: This code is run and returned even if the experiment's C<enabled=false>.
 
 =item result()
 
-Result contains the result of the experiment after it is run.
+Result contains the result of the experiment after it is run as object of type L<Scientist::Result>.
 
 Will contain data only AFTER C<-E<gt>run()> has been called.
 
@@ -149,15 +149,21 @@ Below is a small example that pushes mismatch info and timings to StatsD:
   sub publish {
     my $self = shift;
 
-    my $experiment = $self->result->{experiment};
+    my $result = $self->result;
+    my $experiment = $result->experiment;
+
     # Increment counter for every match or mismatch
-    Net::Statsd::increment("$experiment.mismatch") if $self->result->{mismatched};
-    Net::Statsd::increment("$experiment.match") unless $self->result->{mismatched};
+    if ($result->mismatched) {
+        Net::Statsd::increment("$experiment.mismatch");
+    }
+    else {
+        Net::Statsd::increment("$experiment.match");
+    }
 
     # Log timings (converting Scientist microsends to StatsD miliseconds)
     # Note: This implementation rounds down the duration.
-    Net::Statsd::timing("$experiment.control",   int $self->result->{control}{duration} * 1_000);
-    Net::Statsd::timing("$experiment.candidate", int $self->result->{candidate}{duration} * 1_000);
+    Net::Statsd::timing("$experiment.control",   int $result->control->duration * 1_000);
+    Net::Statsd::timing("$experiment.candidate", int $result->candidate->duration * 1_000);
   }
 
   1;
