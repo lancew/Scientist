@@ -3,6 +3,7 @@ package Scientist;
 
 use Moo;
 use Test2::Compare v0.0.121 qw/compare strict_convert/;
+use Test2::Compare::Delta;
 use Time::HiRes qw/time/;
 use Types::Standard qw/Bool Str CodeRef HashRef/;
 
